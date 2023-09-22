@@ -13,4 +13,6 @@ export const theme = createTheme({
     lg: '1.125rem',
     xl: '1.25rem',
   },
+
+  primaryColor: 'teal',
 });

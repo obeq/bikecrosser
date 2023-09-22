@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, Stack, RingProgress, Center } from '@mantine/core';
+import { Text, Stack, RingProgress, Center, useMantineTheme } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { scaleLinear } from '@visx/scale';
 import { Group } from '@visx/group';
@@ -31,10 +31,10 @@ export function Crossing({
   maxCars = 60,
   width = 1000,
 }) {
+  const theme = useMantineTheme();
   const [cars, setCars] = useState<Car[]>([]);
   const [redlight, setRedlight] = useState<'init' | 'red' | 'green'>('init');
   const [timeStopped, setTimeStopped] = useState<number>(0);
-  const [redlightTimer, setRedlightTimer] = useState<number>(0);
 
   const usableWidth = Math.min(width, 1000);
 
@@ -170,7 +170,7 @@ export function Crossing({
   );
 
   const colorScale = useMemo(
-    () => scaleLinear<string>().domain([0, 1]).range(['#ff0000', '#00ff00']),
+    () => scaleLinear<string>().domain([0, 1]).range([theme.colors.red[5], theme.colors.green[5]]),
     []
   );
 
@@ -196,7 +196,7 @@ export function Crossing({
     <>
       <Stack>
         <svg width={usableWidth} height={30}>
-          <rect y={20} width={usableWidth} height={10} fill="#EEEEEE" />
+          <rect y={20} width={usableWidth} height={10} fill={theme.colors.gray[1]} />
           {cars
             .filter((car) => car.type === 'car')
             .map((car, index) => (
@@ -208,23 +208,20 @@ export function Crossing({
             cx={xScale(0) - 5}
             cy={5}
             r={5}
-            fill={redlight === 'red' ? '#ff0000' : '#00ff00'}
+            fill={redlight === 'red' ? theme.colors.red[5] : theme.colors.green[5]}
           />
         </svg>
-        {/* <Text fz="sm">{(timeStopped / 1000 / 60).toFixed(0)} minutes stopped</Text>
-        <Text fz="sm">
-          {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)} kg co2 produced from idling (compared
-          to 1.8kg for Dakotas drive)
-        </Text> */}
         <Center>
-        <RingProgress
-          sections={[{ value: ((timeStopped / 1000) * 0.588) / 1000 / 1.8 * 100, color: 'red' }]}
-          label={
-            <Text fz="lg" align="center" weight={900} color="red">
-              {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)}
-            </Text>
-          }
-        />
+          <RingProgress
+            sections={[
+              { value: (((timeStopped / 1000) * 0.588) / 1000 / 1.8) * 100, color: theme.colors.red[5] },
+            ]}
+            label={
+              <Text fz="lg" align="center" weight={900} color={theme.colors.red[5]}>
+                {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)}
+              </Text>
+            }
+          />
         </Center>
       </Stack>
     </>
