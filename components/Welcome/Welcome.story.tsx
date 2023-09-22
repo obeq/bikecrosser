@@ -1,7 +1,7 @@
-import { Welcome } from './Welcome';
+import { Crossing } from './Crossing';
 
 export default {
   title: 'Welcome',
 };
 
-export const Usage = () => <Welcome />;
+export const Usage = () => <Crossing />;
