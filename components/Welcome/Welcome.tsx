@@ -27,7 +27,7 @@ export default function Welcome() {
 
   const form = useForm({
     initialValues: {
-      maxCars: 60,
+      maxCars: 30,
       speedLimit: 50,
       safetyTime: 1,
       distance: 20,
