@@ -1,6 +1,6 @@
 'use client';
 
-import { Title, Text, Center, Stack } from '@mantine/core';
+import { Text, Stack, RingProgress, Center } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { scaleLinear } from '@visx/scale';
 import { Group } from '@visx/group';
@@ -211,11 +211,21 @@ export function Crossing({
             fill={redlight === 'red' ? '#ff0000' : '#00ff00'}
           />
         </svg>
-        <Text fz="sm">{(timeStopped / 1000 / 60).toFixed(0)} minutes stopped</Text>
+        {/* <Text fz="sm">{(timeStopped / 1000 / 60).toFixed(0)} minutes stopped</Text>
         <Text fz="sm">
           {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)} kg co2 produced from idling (compared
           to 1.8kg for Dakotas drive)
-        </Text>
+        </Text> */}
+        <Center>
+        <RingProgress
+          sections={[{ value: ((timeStopped / 1000) * 0.588) / 1000 / 1.8 * 100, color: 'red' }]}
+          label={
+            <Text fz="lg" align="center" weight={900} color="red">
+              {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)}
+            </Text>
+          }
+        />
+        </Center>
       </Stack>
     </>
   );
