@@ -211,8 +211,8 @@ export function Crossing({
             fill={redlight === 'red' ? '#ff0000' : '#00ff00'}
           />
         </svg>
-        <Text>{(timeStopped / 1000 / 60).toFixed(0)} minutes stopped</Text>
-        <Text>
+        <Text fz="sm">{(timeStopped / 1000 / 60).toFixed(0)} minutes stopped</Text>
+        <Text fz="sm">
           {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)} kg co2 produced from idling (compared
           to 1.8kg for Dakotas drive)
         </Text>

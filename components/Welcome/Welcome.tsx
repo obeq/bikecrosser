@@ -13,10 +13,13 @@ import {
   Slider,
   Space,
   Stack,
+  Table,
+  rem,
 } from '@mantine/core';
 import { Crossing } from './Crossing';
 import { useViewportSize } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
+import { ParentSize } from '@visx/responsive';
 
 export default function Welcome() {
   const [simulations, setSimulations] = useState<Array<{}>>([]);
@@ -31,24 +34,46 @@ export default function Welcome() {
     },
   });
 
-  const { width } = useViewportSize();
-
   function handleFormSubmit(values, event) {
     event.preventDefault();
-    console.log(values);
     setSimulations((prev) => [...prev, values]);
     setAddingSimulation(false);
   }
 
-  console.log(simulations);
-
   return (
+    <div style={{ width: '100%', maxWidth: rem(1200), margin: 'auto' }}>
     <Flex align="center" justify="center" direction="column" pt={200}>
-      <Grid>
+      <Grid w="100%">
         {simulations.map((simulation, index) => (
-          <Grid.Col span={12} key={`grid-${index}`}>
-            <Crossing width={width} {...simulation} key={index} />
+          <>
+          <Grid.Col span={10} key={`grid-${index}`}>
+            <ParentSize>
+              {({ width }) => (
+                <Crossing width={width} {...simulation} key={index} />
+              )}
+            </ParentSize>
           </Grid.Col>
+          <Grid.Col span={2} key={`grid-${index}-settings`}>
+            <Table fz="xs" withTableBorder>
+              <Table.Tr>
+                <Table.Td>Max cars</Table.Td>
+                <Table.Td>{simulation.maxCars}</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Speed limit</Table.Td>
+                <Table.Td>{simulation.speedLimit}</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Safety time</Table.Td>
+                <Table.Td>{simulation.safetyTime}</Table.Td>
+              </Table.Tr>
+              <Table.Tr>
+                <Table.Td>Starting distance</Table.Td>
+                <Table.Td>{simulation.distance}</Table.Td>
+              </Table.Tr>
+            </Table>
+          </Grid.Col>
+          </>
         ))}
       </Grid>
       <Space h={40} />
@@ -114,5 +139,6 @@ export default function Welcome() {
         </Stack>
       </Modal>
     </Flex>
+    </div>
   );
 }
