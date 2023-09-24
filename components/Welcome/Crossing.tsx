@@ -16,9 +16,14 @@ type Car = {
 
 const STARTING_POSITION = -400;
 const TICK_LENGTH = 5;
+const DAKOTA_CO2_IN_KG = 1.8;
 
 function getRandomInt(around: number) {
   return Math.floor(around + Math.random() * 10 - 5);
+}
+
+function c02PerMs(t: number) {
+  return (((t / 1000) * 0.588) / 1000);
 }
 
 export function Crossing({
@@ -203,13 +208,22 @@ export function Crossing({
           <RingProgress
             sections={[
               {
-                value: (((timeStopped / 1000) * 0.588) / 1000 / 1.8) * 100,
+                value: (c02PerMs(timeStopped) / DAKOTA_CO2_IN_KG) * 100,
                 color: theme.colors.red[5],
               },
             ]}
             label={
-              <Text size="xl" ta="center" fw={900} c={theme.colors.red[5]}>
-                {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)}
+              <Text
+                size="xl"
+                ta="center"
+                fw={900}
+                c={
+                  c02PerMs(timeStopped) > DAKOTA_CO2_IN_KG
+                  ? theme.colors.red[5]
+                  : theme.colors.gray[4]
+                }
+              >
+                {c02PerMs(timeStopped).toFixed(1)}
               </Text>
             }
           />
