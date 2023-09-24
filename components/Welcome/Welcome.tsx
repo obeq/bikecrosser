@@ -16,12 +16,13 @@ import {
 import { useForm } from '@mantine/form';
 import { ParentSize } from '@visx/responsive';
 import { Crossing } from './Crossing';
+import { SimulationProps } from '../types';
 
 export default function Welcome() {
-  const [simulations, setSimulations] = useState<Array<{}>>([]);
+  const [simulations, setSimulations] = useState<Array<SimulationProps>>([]);
   const [addingSimulation, setAddingSimulation] = useState<boolean>(false);
 
-  const form = useForm({
+  const form = useForm<SimulationProps>({
     initialValues: {
       maxCars: 30,
       speedLimit: 50,
@@ -30,8 +31,9 @@ export default function Welcome() {
     },
   });
 
-  function handleFormSubmit(values, event) {
-    event.preventDefault();
+  function handleFormSubmit(values: SimulationProps, event?: React.FormEvent<HTMLFormElement>) {
+    if (event) event.preventDefault();
+
     setSimulations((prev) => [...prev, values]);
     setAddingSimulation(false);
   }

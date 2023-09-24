@@ -15,10 +15,7 @@ type Car = {
 };
 
 const STARTING_POSITION = -400;
-// const DISTANCE = 50;
-// const SPEED_LIMIT = 50;
 const TICK_LENGTH = 5;
-// const MAX_CARS = 60;
 
 function getRandomInt(around: number) {
   return Math.floor(around + Math.random() * 10 - 5);
@@ -132,21 +129,12 @@ export function Crossing({
   }
 
   useEffect(() => {
-    cars.reduce((previousCar: Car | undefined, car) => {
-      if (previousCar && previousCar.position < car.position) {
-        console.log('crash', previousCar, car);
-      }
-
-      return car;
-    }, undefined);
-
     if (
       cars[0] !== undefined &&
       redlight === 'init' &&
       cars[0].position > -30 &&
       cars[0].position < -10
     ) {
-      console.log('stop once');
       setRedlight('red');
       setTimeout(() => {
         setRedlight('green');
@@ -214,10 +202,13 @@ export function Crossing({
         <Center>
           <RingProgress
             sections={[
-              { value: (((timeStopped / 1000) * 0.588) / 1000 / 1.8) * 100, color: theme.colors.red[5] },
+              {
+                value: (((timeStopped / 1000) * 0.588) / 1000 / 1.8) * 100,
+                color: theme.colors.red[5],
+              },
             ]}
             label={
-              <Text fz="lg" align="center" weight={900} color={theme.colors.red[5]}>
+              <Text size="xl" ta="center" fw={900} c={theme.colors.red[5]}>
                 {(((timeStopped / 1000) * 0.588) / 1000).toFixed(1)}
               </Text>
             }
