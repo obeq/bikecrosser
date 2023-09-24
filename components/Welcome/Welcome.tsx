@@ -3,23 +3,19 @@
 import { useState } from 'react';
 import {
   Button,
-  Center,
-  Fieldset,
   Flex,
   Grid,
   Modal,
   NumberInput,
-  Paper,
   Slider,
   Space,
   Stack,
   Table,
   rem,
 } from '@mantine/core';
-import { Crossing } from './Crossing';
-import { useViewportSize } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import { ParentSize } from '@visx/responsive';
+import { Crossing } from './Crossing';
 
 export default function Welcome() {
   const [simulations, setSimulations] = useState<Array<{}>>([]);
